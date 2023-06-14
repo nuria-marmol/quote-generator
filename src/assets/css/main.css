@@ -40,9 +40,11 @@ body {
   border-radius: .75rem;
   background-color: var(--color-medium-blue);
   text-align: center;
+}
 
-  /* Mobile */
-  @media screen and (max-width: 600px) {
+/* Mobile */
+@media screen and (max-width: 600px) {
+  .card {
     width: 18rem;
     padding: 2rem;
   }
@@ -79,9 +81,11 @@ body {
   border-radius: 1.5rem;
   cursor: pointer;
   transition: 1s;
+}
 
-  /* Mobile */
-  @media screen and (max-width: 600px) {
+/* Mobile */
+@media screen and (max-width: 600px) {
+  .card > button {
     left: 38%;
   }
 }
