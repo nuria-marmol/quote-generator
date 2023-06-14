@@ -6,9 +6,9 @@
 </script>
 
 <template>
-  <div>
-    <p>"{{ quoteText }}"</p>
+  <div class="card">  
     <p>{{ quoteAuthor }}</p>
+    <p>"{{ quoteText }}"</p>
     <button type="button" @click="$emit('onClickDoThis')">New quote</button>
   </div>
 </template>
