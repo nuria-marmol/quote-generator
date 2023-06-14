@@ -11,6 +11,12 @@
   font-weight: 400 800;
 }
 
+html,
+body,
+#app {
+  height: 100%;
+}
+
 body {
   margin: unset;
   background-color: var(--color-dark-blue);
@@ -22,7 +28,6 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
 }
 
 .card {
