@@ -7,7 +7,7 @@
 
 @font-face {
   font-family: "Manrope";
-  src: url("./fonts/manrope-variablefont.woff2") format("woff2-variations");
+  src: url("../fonts/manrope-variablefont.woff2") format("woff2-variations");
   font-weight: 400 800;
 }
 
@@ -29,7 +29,8 @@ body {
   position: relative;
   width: 28rem;
   height: fit-content;
-  box-shadow: 1px 1px 8px var(--color-neon-blue);
+  box-shadow: 1px 1px 15px var(--color-neon-blue);
+  margin: unset;
   padding: 3rem;
   border-radius: .75rem;
   background-color: var(--color-medium-blue);
@@ -43,24 +44,23 @@ body {
 }
 
 /* Quote author */
-.card > p:first-child {
+.card > figcaption {
   margin: unset;
   color: var(--color-neon-blue);
   font-size: 1.25rem;
   font-weight: 500;
 }
 
+.card > blockquote {
+  margin: unset;
+}
+
 /* Quote text */
-.card > p:nth-child(2) {
+.card p {
   margin-top: 1rem;
   color: var(--color-light-blue);
   font-size: 1.5rem;
   font-weight: 700;
-}
-
-.card > img {
-  width: 18rem;
-  margin-top: 1.5rem;
 }
 
 .card > button {

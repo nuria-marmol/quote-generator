@@ -6,11 +6,13 @@
 </script>
 
 <template>
-  <div class="card">  
-    <p>{{ quoteAuthor }}</p>
-    <p>"{{ quoteText }}"</p>
+  <figure class="card">  
+    <figcaption>{{ quoteAuthor }}</figcaption>
+    <blockquote>
+      <p>"{{ quoteText }}"</p>
+    </blockquote>
     <button type="button" @click="$emit('onClickDoThis')">New quote</button>
-  </div>
+  </figure>
 </template>
 
 <style scoped></style>

@@ -5,7 +5,8 @@
 
   const quote = ref({})
 
-  function getQuote() { 	
+  function getQuote() {
+    // API docs: https://pprathameshmore.github.io/QuoteGarden/
     fetch("https://quote-garden.onrender.com/api/v3/quotes/random")
       .then((response) => response.json())
       .then((json) => (quote.value = json.data[0]))
