@@ -42,14 +42,6 @@ body {
   text-align: center;
 }
 
-/* Mobile */
-@media screen and (max-width: 600px) {
-  .card {
-    width: 17.5rem;
-    padding: 2rem;
-  }
-}
-
 /* Quote author */
 .card > figcaption {
   margin: unset;
@@ -73,7 +65,8 @@ body {
 .card > button {
   position: absolute;
   bottom: -1.5rem;
-  left: 42%;
+  left: 50%;
+  transform: translateX(-50%);
   padding: 1rem;
   background-color: var(--color-neon-blue);
   color: var(--color-dark-blue);
@@ -83,13 +76,24 @@ body {
   transition: 1s;
 }
 
-/* Mobile */
-@media screen and (max-width: 600px) {
-  .card > button {
-    left: 38%;
-  }
-}
-
 .card > button:hover {
   background-color: var(--color-light-blue);
+}
+
+/* Mobile */
+@media screen and (max-width: 600px) {
+  .card {
+    width: 16rem;
+    padding: 1.75rem;
+    box-shadow: 1px 1px 10px var(--color-neon-blue);
+  }
+
+  /* Quote text */
+  .card p {
+    font-size: 1.4rem;
+  } 
+
+  .card > button:hover {
+    background-color: var(--color-neon-blue);
+  }
 }
