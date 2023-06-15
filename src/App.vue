@@ -9,6 +9,7 @@
   const seeRandom = ref(true)
 
   function getRandomQuote() {
+    // Showing card again in case the user clicks on author's name
     seeRandom.value = true
     // API docs: https://pprathameshmore.github.io/QuoteGarden/
     fetch("https://quote-garden.onrender.com/api/v3/quotes/random")
@@ -35,16 +36,16 @@
 <template>
   <!-- Random quote -->
   <QuoteCard
-  v-if="seeRandom"
-  :quoteText="randomQuote.quoteText"
-  :quoteAuthor="randomQuote.quoteAuthor"
-  @clickFigcaption="getAuthorQuotes"
-  @clickButton="getRandomQuote"
+    v-if="seeRandom"
+    :quoteText="randomQuote.quoteText"
+    :quoteAuthor="randomQuote.quoteAuthor"
+    @clickFigcaption="getAuthorQuotes"
+    @clickButton="getRandomQuote"
   />
 
   <!-- Several quotes from concrete author -->
   <section v-if="!seeRandom" class="author container">
-    <p>{{ randomQuote.quoteAuthor}}</p>
+    <p>{{ randomQuote.quoteAuthor }}</p>
     <QuoteArticle      
       v-for="object in authorQuotes"
       :quoteText="object.quoteText"

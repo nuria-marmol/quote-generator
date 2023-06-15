@@ -38,10 +38,6 @@ button:hover {
   background-color: var(--color-light-blue);
 }
 
-.message {
-  color: var(--color-light-blue);
-}
-
 .card {
   position: absolute;
   top: 0;
@@ -65,6 +61,11 @@ button:hover {
   font-size: 1.25rem;
   font-weight: 500;
   cursor: pointer;
+  transition: 1s;
+}
+
+.card > figcaption:hover {
+  transform: scale(1.1);
 }
 
 blockquote {
@@ -86,11 +87,12 @@ blockquote {
   transform: translateX(-50%);
 }
 
+/* Author section with several quotes */
 .author {
   text-align: center;
 }
 
-/* Author name for section */
+/* Author name */
 .author > p {
   margin-bottom: 2rem;
   color: var(--color-neon-blue);
@@ -103,6 +105,7 @@ blockquote {
   font-size: 1rem;
 }
 
+/* Divider */
 .author img {
   width: 16rem;
   margin: 0 auto 2rem auto;

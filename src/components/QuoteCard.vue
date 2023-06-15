@@ -8,7 +8,7 @@
 <template>
   <figure class="card">  
     <figcaption @click="$emit('clickFigcaption')">
-      {{ quoteAuthor }}
+      {{ quoteAuthor }} ->
     </figcaption>
     <blockquote>
       <p>"{{ quoteText }}"</p>
