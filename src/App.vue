@@ -7,10 +7,25 @@
   const randomQuote = ref({})
   const authorQuotes = ref([])
   const seeRandom = ref(true)
+  const cardLoadingMessage = ref("")
+
+  /**
+  * Generating random loading message for the card
+  */
+  function getLoadingMessage() {
+    const messages = ["Wait for it...", "Just a tick...", "Wait a moment...", "Let me think...", "You'll love this one..."]
+    const ultimateMessage = messages[Math.floor(Math.random() * messages.length)]
+    cardLoadingMessage.value = ultimateMessage
+  }
 
   function getRandomQuote() {
-    // Showing card again in case the user clicks on author's name
+    getLoadingMessage()
+    // Clearing previous random quote
+    randomQuote.value = {}
+    // Showing card again when clicking button below several quotes
     seeRandom.value = true
+    // Clearing several previous quotes from author
+    authorQuotes.value = []
     // API docs: https://pprathameshmore.github.io/QuoteGarden/
     fetch("https://quote-garden.onrender.com/api/v3/quotes/random")
       .then((response) => response.json())
@@ -28,7 +43,7 @@
       .then((json) => (authorQuotes.value = json.data))
   }
 
-  // Returns true if there is random quote ready
+  // Returns true if there is a random quote
   const isThereRandomQuote = computed( () => {
     return Object.keys(randomQuote.value).length > 0
   })
@@ -48,6 +63,7 @@
   <QuoteCard
     v-if="seeRandom"
     :showLoading="!isThereRandomQuote"
+    :loadingMessage="cardLoadingMessage"
     :quoteText="randomQuote.quoteText"
     :quoteAuthor="randomQuote.quoteAuthor"
     @clickFigcaption="getAuthorQuotes"

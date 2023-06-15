@@ -4,6 +4,7 @@
           type: Boolean,
           default: true
         },
+        loadingMessage: String,
         quoteText: String,
         quoteAuthor: String
     })
@@ -14,7 +15,7 @@
     <figcaption v-if="!showLoading" @click="$emit('clickFigcaption')">
       {{ quoteAuthor }} ->
     </figcaption>
-    <p v-if="showLoading">Wait for it...</p>
+    <p v-if="showLoading">{{ loadingMessage }}</p>
     <blockquote v-if="!showLoading">
       <p>"{{ quoteText }}"</p>
     </blockquote>

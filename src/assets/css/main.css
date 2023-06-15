@@ -129,12 +129,16 @@ blockquote {
     box-shadow: 1px 1px 10px var(--color-neon-blue);
   }
 
-  /* Quote text */
+  /* Quote text and card loading */
   .card p {
     font-size: 1.4rem;
   }
 
   button:hover {
     background-color: var(--color-neon-blue);
+  }
+
+  .author img {
+    width: 14rem;
   }
 }
