@@ -45,7 +45,7 @@ body {
 /* Mobile */
 @media screen and (max-width: 600px) {
   .card {
-    width: 18rem;
+    width: 17.5rem;
     padding: 2rem;
   }
 }
