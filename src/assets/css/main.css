@@ -11,12 +11,6 @@
   font-weight: 400 800;
 }
 
-html,
-body,
-#app {
-  height: 100%;
-}
-
 body {
   margin: unset;
   background-color: var(--color-dark-blue);
@@ -24,18 +18,40 @@ body {
   font-weight: 400;
 }
 
-#app {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.container {
+  max-width: 800px;
+  margin: 4rem auto;
+  padding: 1rem;
+}
+
+button {
+  padding: 1rem;
+  background-color: var(--color-neon-blue);
+  color: var(--color-dark-blue);
+  border: transparent;
+  border-radius: 1.5rem;
+  cursor: pointer;
+  transition: 1s;
+}
+
+button:hover {
+  background-color: var(--color-light-blue);
+}
+
+.message {
+  color: var(--color-light-blue);
 }
 
 .card {
-  position: relative;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
   width: 28rem;
   height: fit-content;
   box-shadow: 1px 1px 15px var(--color-neon-blue);
-  margin: unset;
+  margin: auto;
   padding: 3rem;
   border-radius: .75rem;
   background-color: var(--color-medium-blue);
@@ -48,9 +64,10 @@ body {
   color: var(--color-neon-blue);
   font-size: 1.25rem;
   font-weight: 500;
+  cursor: pointer;
 }
 
-.card > blockquote {
+blockquote {
   margin: unset;
 }
 
@@ -67,17 +84,32 @@ body {
   bottom: -1.5rem;
   left: 50%;
   transform: translateX(-50%);
-  padding: 1rem;
-  background-color: var(--color-neon-blue);
-  color: var(--color-dark-blue);
-  border: transparent;
-  border-radius: 1.5rem;
-  cursor: pointer;
-  transition: 1s;
 }
 
-.card > button:hover {
-  background-color: var(--color-light-blue);
+.author {
+  text-align: center;
+}
+
+/* Author name for section */
+.author > p {
+  margin-bottom: 2rem;
+  color: var(--color-neon-blue);
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+
+.author blockquote {
+  color: var(--color-light-blue);
+  font-size: 1rem;
+}
+
+.author img {
+  width: 16rem;
+  margin: 0 auto 2rem auto;
+}
+
+.author > button {
+  margin-top: 2rem;
 }
 
 /* Mobile */
@@ -91,9 +123,9 @@ body {
   /* Quote text */
   .card p {
     font-size: 1.4rem;
-  } 
+  }
 
-  .card > button:hover {
+  button:hover {
     background-color: var(--color-neon-blue);
   }
 }

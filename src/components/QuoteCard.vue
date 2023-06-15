@@ -7,11 +7,16 @@
 
 <template>
   <figure class="card">  
-    <figcaption>{{ quoteAuthor }}</figcaption>
+    <figcaption @click="$emit('clickFigcaption')">
+      {{ quoteAuthor }}
+    </figcaption>
     <blockquote>
       <p>"{{ quoteText }}"</p>
     </blockquote>
-    <button type="button" @click="$emit('onClickDoThis')">New quote</button>
+    <button 
+      type="button" 
+      @click="$emit('clickButton')"
+    >New quote</button>
   </figure>
 </template>
 
