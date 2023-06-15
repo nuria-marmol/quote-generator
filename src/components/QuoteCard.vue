@@ -1,16 +1,21 @@
 <script setup>
     defineProps({
+        showLoading: {
+          type: Boolean,
+          default: true
+        },
         quoteText: String,
         quoteAuthor: String
     })
 </script>
 
 <template>
-  <figure class="card">  
-    <figcaption @click="$emit('clickFigcaption')">
+  <figure class="card">
+    <figcaption v-if="!showLoading" @click="$emit('clickFigcaption')">
       {{ quoteAuthor }} ->
     </figcaption>
-    <blockquote>
+    <p v-if="showLoading">Wait for it...</p>
+    <blockquote v-if="!showLoading">
       <p>"{{ quoteText }}"</p>
     </blockquote>
     <button 

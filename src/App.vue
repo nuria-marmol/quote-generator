@@ -2,7 +2,7 @@
   import QuoteCard from './components/QuoteCard.vue'
   import QuoteArticle from './components/QuoteArticle.vue'
 
-  import { ref, onMounted } from 'vue'
+  import { ref, onMounted, computed } from 'vue'
 
   const randomQuote = ref({})
   const authorQuotes = ref([])
@@ -28,6 +28,16 @@
       .then((json) => (authorQuotes.value = json.data))
   }
 
+  // Returns true if there is random quote ready
+  const isThereRandomQuote = computed( () => {
+    return Object.keys(randomQuote.value).length > 0
+  })
+
+  // Returns true if there are quotes from a concrete author
+  const areThereSeveralQuotes = computed( () => {
+    return authorQuotes.value.length > 0
+  })
+
   onMounted(async () => {
     await getRandomQuote()    
   })
@@ -37,6 +47,7 @@
   <!-- Random quote -->
   <QuoteCard
     v-if="seeRandom"
+    :showLoading="!isThereRandomQuote"
     :quoteText="randomQuote.quoteText"
     :quoteAuthor="randomQuote.quoteAuthor"
     @clickFigcaption="getAuthorQuotes"
@@ -46,6 +57,7 @@
   <!-- Several quotes from concrete author -->
   <section v-if="!seeRandom" class="author container">
     <p>{{ randomQuote.quoteAuthor }}</p>
+    <p v-if="!areThereSeveralQuotes">Loading quotes...</p>
     <QuoteArticle      
       v-for="object in authorQuotes"
       :quoteText="object.quoteText"

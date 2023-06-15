@@ -72,7 +72,7 @@ blockquote {
   margin: unset;
 }
 
-/* Quote text */
+/* Quote text and card loading */
 .card p {
   margin-top: 1rem;
   color: var(--color-light-blue);
@@ -93,16 +93,22 @@ blockquote {
 }
 
 /* Author name */
-.author > p {
-  margin-bottom: 2rem;
+.author > p:first-child {
+  margin-bottom: 2.5rem;
   color: var(--color-neon-blue);
   font-size: 1.25rem;
   font-weight: 500;
 }
 
+/* Loading and quotes */
+.author > p:nth-child(2),
 .author blockquote {
   color: var(--color-light-blue);
   font-size: 1rem;
+}
+
+.author blockquote p {
+  margin-bottom: .75rem;
 }
 
 /* Divider */
