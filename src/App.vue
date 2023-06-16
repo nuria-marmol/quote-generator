@@ -5,8 +5,9 @@
   import { ref, onMounted, computed } from 'vue'
 
   const randomQuote = ref({})
-  const authorQuotes = ref([])
-  const seeRandom = ref(true)
+  const authorQuotes = ref([]) // for other quotes from that author
+  const noDuplicatedQuotes = ref({})
+  const seeRandom = ref(true) // for showing/hiding card
   const cardLoadingMessage = ref("")
 
   /**
@@ -18,6 +19,9 @@
     cardLoadingMessage.value = ultimateMessage
   }
 
+  /**
+  * Getting a random quote for the card
+  */
   function getRandomQuote() {
     getLoadingMessage()
     // Clearing previous random quote
@@ -26,21 +30,33 @@
     seeRandom.value = true
     // Clearing several previous quotes from author
     authorQuotes.value = []
+    noDuplicatedQuotes.value = {}
     // API docs: https://pprathameshmore.github.io/QuoteGarden/
     fetch("https://quote-garden.onrender.com/api/v3/quotes/random")
       .then((response) => response.json())
       .then((json) => (randomQuote.value = json.data[0]))
   }
 
+  /**
+  * Getting other quotes from author
+  */
   function getAuthorQuotes() {
     // Hiding card with random quote
     seeRandom.value = false
     const authorLower = randomQuote.value.quoteAuthor.toLowerCase()
     // Replacing all spaces for %20
     const authorSlug = authorLower.replace(/ /g, '%20')
-    fetch(`https://quote-garden.onrender.com/api/v3/quotes?author=${authorSlug}&limit=10`)
+    fetch(`https://quote-garden.onrender.com/api/v3/quotes?author=${authorSlug}&limit=12`)
       .then((response) => response.json())
-      .then((json) => (authorQuotes.value = json.data))
+      .then((json) => {
+        authorQuotes.value = json.data
+        // Avoiding duplicated quotes
+        noDuplicatedQuotes.value = new Set()
+        authorQuotes.value.forEach(el => {
+          noDuplicatedQuotes.value.add(el.quoteText)
+        })
+        return noDuplicatedQuotes.value
+      })
   }
 
   // Returns true if there is a random quote
@@ -75,8 +91,8 @@
     <p>{{ randomQuote.quoteAuthor }}</p>
     <p v-if="!areThereSeveralQuotes">Loading quotes...</p>
     <QuoteArticle      
-      v-for="object in authorQuotes"
-      :quoteText="object.quoteText"
+      v-for="quote in noDuplicatedQuotes"
+      :quoteText="quote"
     />
     <button      
       type="button" 
