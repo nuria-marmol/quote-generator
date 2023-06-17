@@ -107,6 +107,11 @@ blockquote {
   font-size: 1rem;
 }
 
+.author > ul {
+  padding-left: unset;
+  list-style: none;
+}
+
 .author blockquote p {
   margin-bottom: .75rem;
 }

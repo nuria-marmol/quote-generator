@@ -1,12 +1,12 @@
 <script setup>
   import QuoteCard from './components/QuoteCard.vue'
-  import QuoteArticle from './components/QuoteArticle.vue'
+  import QuoteItem from './components/QuoteItem.vue'
 
   import { ref, onMounted, computed } from 'vue'
 
   const randomQuote = ref({})
   const authorQuotes = ref([]) // for other quotes from that author
-  const noDuplicatedQuotes = ref({})
+  const noDuplicateQuotes = ref({})
   const seeRandom = ref(true) // for showing/hiding card
   const cardLoadingMessage = ref("")
 
@@ -30,7 +30,7 @@
     seeRandom.value = true
     // Clearing several previous quotes from author
     authorQuotes.value = []
-    noDuplicatedQuotes.value = {}
+    noDuplicateQuotes.value = {}
     // API docs: https://pprathameshmore.github.io/QuoteGarden/
     fetch("https://quote-garden.onrender.com/api/v3/quotes/random")
       .then((response) => response.json())
@@ -50,12 +50,12 @@
       .then((response) => response.json())
       .then((json) => {
         authorQuotes.value = json.data
-        // Avoiding duplicated quotes
-        noDuplicatedQuotes.value = new Set()
+        // Avoiding duplicate quotes
+        noDuplicateQuotes.value = new Set()
         authorQuotes.value.forEach(el => {
-          noDuplicatedQuotes.value.add(el.quoteText)
+          noDuplicateQuotes.value.add(el.quoteText)
         })
-        return noDuplicatedQuotes.value
+        return noDuplicateQuotes.value
       })
   }
 
@@ -90,10 +90,12 @@
   <section v-if="!seeRandom" class="author container">
     <p>{{ randomQuote.quoteAuthor }}</p>
     <p v-if="!areThereSeveralQuotes">Loading quotes...</p>
-    <QuoteArticle      
-      v-for="quote in noDuplicatedQuotes"
-      :quoteText="quote"
-    />
+    <ul>
+      <QuoteItem     
+        v-for="quote in noDuplicateQuotes"
+        :quoteText="quote"
+      />
+    </ul>
     <button      
       type="button" 
       @click="getRandomQuote"

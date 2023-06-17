@@ -5,12 +5,12 @@
 </script>
 
 <template>
-  <article>
+  <li>
     <blockquote>
       <p>"{{ quoteText }}"</p>
     </blockquote>
     <img src="../assets/icons/divider.svg" alt="divider" />  
-  </article>
+  </li>
 </template>
 
 <style scoped></style>
