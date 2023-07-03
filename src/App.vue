@@ -128,7 +128,7 @@
         type="button"
         @click="goToPreviousPage"
       >&larr;</button>
-      <span>You're on page {{ authorPage }}</span>
+      <span>Page {{ authorPage }} of {{ totalPages }}</span>
       <button
         v-if="authorPage + 1 <= totalPages"
         type="button" 
