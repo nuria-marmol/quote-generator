@@ -132,7 +132,7 @@ blockquote {
   display: flex;
   justify-content: center;
   align-items: baseline;
-  gap: 1rem;
+  gap: .5rem;
   margin-top: 2rem;
   color: var(--color-neon-blue);
 }
@@ -173,5 +173,9 @@ blockquote {
 
   .author img {
     width: 14rem;
+  }
+
+  .author__pagination > button {
+    font-size: 1.6rem;
   }
 }
