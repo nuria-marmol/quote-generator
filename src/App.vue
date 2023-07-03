@@ -6,6 +6,8 @@
 
   const randomQuote = ref({})
   const authorQuotes = ref([]) // for other quotes from that author
+  const authorPage = ref(1)
+  const totalPages = ref(1)
   const noDuplicateQuotes = ref({})
   const seeRandom = ref(true) // for showing/hiding card
   const cardLoadingMessage = ref("")
@@ -17,6 +19,14 @@
     const messages = ["Wait for it...", "Just a tick...", "Wait a moment...", "Let me think...", "You'll love this one..."]
     const ultimateMessage = messages[Math.floor(Math.random() * messages.length)]
     cardLoadingMessage.value = ultimateMessage
+  }
+
+  /**
+  * Before generating a new random quote from the list of quotes
+  */
+  function resetAuthorPage() {
+    authorPage.value = 1
+    getRandomQuote()
   }
 
   /**
@@ -37,18 +47,33 @@
       .then((json) => (randomQuote.value = json.data[0]))
   }
 
+  function goToNextPage() {
+    authorPage.value += 1
+    getAuthorQuotes()
+  }
+
+  function goToPreviousPage() {
+    authorPage.value -= 1
+    getAuthorQuotes()
+  }
+
   /**
   * Getting other quotes from author
   */
   function getAuthorQuotes() {
     // Hiding card with random quote
     seeRandom.value = false
+    // In case the pagination is used: emptying previous quotes
+    noDuplicateQuotes.value = {}
+    // In case the pagination is used: for activating the loading again
+    authorQuotes.value = []
     const authorLower = randomQuote.value.quoteAuthor.toLowerCase()
     // Replacing all spaces for %20
     const authorSlug = authorLower.replace(/ /g, '%20')
-    fetch(`https://quote-garden.onrender.com/api/v3/quotes?author=${authorSlug}&limit=12`)
+    fetch(`https://quote-garden.onrender.com/api/v3/quotes?author=${authorSlug}&page=${authorPage.value}`)
       .then((response) => response.json())
       .then((json) => {
+        totalPages.value = json.pagination.totalPages
         authorQuotes.value = json.data
         // Avoiding duplicate quotes
         noDuplicateQuotes.value = new Set()
@@ -96,9 +121,24 @@
         :quoteText="quote"
       />
     </ul>
+    <!-- Pagination will be visible if there is more than 1 page and once the quotes have been loaded -->
+    <div v-if="areThereSeveralQuotes && totalPages > 1" class="author__pagination">
+      <button
+        v-if="authorPage > 1"
+        type="button"
+        @click="goToPreviousPage"
+      >&larr;</button>
+      <span>You're on page {{ authorPage }}</span>
+      <button
+        v-if="authorPage + 1 <= totalPages"
+        type="button" 
+        @click="goToNextPage"      
+      >&rarr;</button>
+    </div>
     <button      
-      type="button" 
-      @click="getRandomQuote"
+      type="button"
+      class="button"
+      @click="resetAuthorPage"
     >New quote</button>
   </section>
 </template>
