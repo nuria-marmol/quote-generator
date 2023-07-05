@@ -57,6 +57,11 @@ button:hover {
 /* Quote author */
 .card > figcaption {
   margin: unset;
+}
+
+.card > figcaption > button {
+  border: transparent;
+  background-color: transparent;
   color: var(--color-neon-blue);
   font-size: 1.25rem;
   font-weight: 500;
@@ -64,7 +69,7 @@ button:hover {
   transition: 1s;
 }
 
-.card > figcaption:hover {
+.card > figcaption > button:hover {
   transform: scale(1.1);
 }
 

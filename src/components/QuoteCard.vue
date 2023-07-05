@@ -12,8 +12,11 @@
 
 <template>
   <figure class="card">
-    <figcaption v-if="!showLoading" @click="$emit('clickFigcaption')">
-      {{ quoteAuthor }} &rarr;
+    <figcaption v-if="!showLoading">
+      <button 
+        type="button" 
+        @click="$emit('clickFigcaption')"
+      >{{ quoteAuthor }} &rarr;</button>
     </figcaption>
     <p v-if="showLoading">{{ loadingMessage }}</p>
     <blockquote v-if="!showLoading">
