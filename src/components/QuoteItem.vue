@@ -1,7 +1,7 @@
 <script setup>
-    defineProps({
-        quoteText: "String"
-    })
+defineProps({
+  quoteText: "String"
+})
 </script>
 
 <template>

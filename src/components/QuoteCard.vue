@@ -1,14 +1,14 @@
 <script setup>
-    defineProps({
-        cardClassCondition: Boolean,
-        showLoading: {
-          type: Boolean,
-          default: true
-        },
-        loadingMessage: String,
-        quoteText: String,
-        quoteAuthor: String
-    })
+defineProps({
+  cardClassCondition: Boolean,
+  showLoading: {
+    type: Boolean,
+    default: true
+  },
+  loadingMessage: String,
+  quoteText: String,
+  quoteAuthor: String
+})
 </script>
 
 <template>
