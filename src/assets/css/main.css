@@ -54,6 +54,13 @@ button:hover {
   text-align: center;
 }
 
+/* For longer quotes that don't need to be vertically centered on the page.
+This way we prevent the card from being cut off. */
+.card--bigger {
+  position: relative;
+  box-sizing: border-box;
+}
+
 /* Quote author */
 .card > figcaption {
   margin: unset;
@@ -162,7 +169,7 @@ blockquote {
 /* Mobile */
 @media screen and (max-width: 600px) {
   .card {
-    width: 16rem;
+    width: 15.75rem;
     padding: 1.75rem;
     box-shadow: 1px 1px 10px var(--color-neon-blue);
   }

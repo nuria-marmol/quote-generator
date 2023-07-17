@@ -2,7 +2,7 @@
   import QuoteCard from './components/QuoteCard.vue'
   import QuoteItem from './components/QuoteItem.vue'
 
-  import { ref, onMounted, computed } from 'vue'
+  import { ref, computed, onBeforeMount, onMounted } from 'vue'
 
   const randomQuote = ref({})
   const authorQuotes = ref([]) // for other quotes from that author
@@ -11,6 +11,7 @@
   const noDuplicateQuotes = ref({})
   const seeRandom = ref(true) // for showing/hiding card
   const cardLoadingMessage = ref("")
+  const isMobile = ref(false)
 
   /**
   * Generating random loading message for the card
@@ -84,6 +85,17 @@
       })
   }
 
+  /**
+  *  Checking if a mobile device is being used
+  */
+  function checkMobileDevice() {
+    if (window.innerWidth <= 480) {
+      isMobile.value = true
+    } else {
+      isMobile.value = false
+    }
+  }
+
   // Returns true if there is a random quote
   const isThereRandomQuote = computed( () => {
     return Object.keys(randomQuote.value).length > 0
@@ -94,53 +106,66 @@
     return authorQuotes.value.length > 0
   })
 
+  // Returns true if the quote is too long
+  const biggerCard = computed(() => {
+    return randomQuote.value.quoteText?.length > 200
+  })
+
+  onBeforeMount(() => {
+    checkMobileDevice()
+  })
+
   onMounted(async () => {
-    await getRandomQuote()    
+    await getRandomQuote()
+    window.addEventListener('resize', checkMobileDevice)
   })
 </script>
 
 <template>
-  <!-- Random quote -->
-  <QuoteCard
-    v-if="seeRandom"
-    :showLoading="!isThereRandomQuote"
-    :loadingMessage="cardLoadingMessage"
-    :quoteText="randomQuote.quoteText"
-    :quoteAuthor="randomQuote.quoteAuthor"
-    @clickFigcaption="getAuthorQuotes"
-    @clickButton="getRandomQuote"
-  />
+  <main class="container">
+    <!-- Random quote -->
+    <QuoteCard
+      v-if="seeRandom"
+      :cardClassCondition="isMobile && biggerCard"
+      :showLoading="!isThereRandomQuote"
+      :loadingMessage="cardLoadingMessage"
+      :quoteText="randomQuote.quoteText"
+      :quoteAuthor="randomQuote.quoteAuthor"
+      @clickFigcaption="getAuthorQuotes"
+      @clickButton="getRandomQuote"
+    />
 
-  <!-- Several quotes from concrete author -->
-  <section v-if="!seeRandom" class="author container">
-    <p>{{ randomQuote.quoteAuthor }}</p>
-    <p v-if="!areThereSeveralQuotes">Loading quotes...</p>
-    <ul>
-      <QuoteItem     
-        v-for="quote in noDuplicateQuotes"
-        :quoteText="quote"
-      />
-    </ul>
-    <!-- Pagination will be visible if there is more than 1 page and once the quotes have been loaded -->
-    <div v-if="areThereSeveralQuotes && totalPages > 1" class="author__pagination">
-      <button
-        v-if="authorPage > 1"
+    <!-- Several quotes from concrete author -->
+    <section v-if="!seeRandom" class="author">
+      <p>{{ randomQuote.quoteAuthor }}</p>
+      <p v-if="!areThereSeveralQuotes">Loading quotes...</p>
+      <ul>
+        <QuoteItem     
+          v-for="quote in noDuplicateQuotes"
+          :quoteText="quote"
+        />
+      </ul>
+      <!-- Pagination will be visible if there is more than 1 page and once the quotes have been loaded -->
+      <div v-if="areThereSeveralQuotes && totalPages > 1" class="author__pagination">
+        <button
+          v-if="authorPage > 1"
+          type="button"
+          @click="goToPreviousPage"
+        >&larr;</button>
+        <span>Page {{ authorPage }} of {{ totalPages }}</span>
+        <button
+          v-if="authorPage + 1 <= totalPages"
+          type="button" 
+          @click="goToNextPage"      
+        >&rarr;</button>
+      </div>
+      <button      
         type="button"
-        @click="goToPreviousPage"
-      >&larr;</button>
-      <span>Page {{ authorPage }} of {{ totalPages }}</span>
-      <button
-        v-if="authorPage + 1 <= totalPages"
-        type="button" 
-        @click="goToNextPage"      
-      >&rarr;</button>
-    </div>
-    <button      
-      type="button"
-      class="button"
-      @click="resetAuthorPage"
-    >New quote</button>
-  </section>
+        class="button"
+        @click="resetAuthorPage"
+      >New quote</button>
+    </section>
+  </main>
 </template>
 
 <style scoped></style>

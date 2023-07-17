@@ -1,5 +1,6 @@
 <script setup>
     defineProps({
+        cardClassCondition: Boolean,
         showLoading: {
           type: Boolean,
           default: true
@@ -11,7 +12,11 @@
 </script>
 
 <template>
-  <figure class="card">
+  <!-- The card will have a second class if the quote is too long -->
+  <figure
+    class="card" 
+    :class="{ 'card--bigger': cardClassCondition }"
+  >
     <figcaption v-if="!showLoading">
       <button 
         type="button" 
