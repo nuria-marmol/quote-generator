@@ -92,6 +92,10 @@ blockquote {
   font-weight: 700;
 }
 
+.card.card--bigger p {
+  font-size: 1.3rem;
+}
+
 .card > button {
   position: absolute;
   bottom: -1.5rem;
