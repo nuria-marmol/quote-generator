@@ -24,18 +24,35 @@ body {
   padding: 1rem;
 }
 
-.button {
+.button,
+.button--secondary {
   padding: 1rem;
-  background-color: var(--color-neon-blue);
-  color: var(--color-dark-blue);
   border: transparent;
   border-radius: 1.5rem;
   cursor: pointer;
   transition: 1s;
 }
 
-button:hover {
+.button {
+  background-color: var(--color-neon-blue);
+  color: var(--color-dark-blue);
+}
+
+.button--secondary {
+  position: absolute;
+  right: 0;
+  bottom: -4rem;
+  background-color: transparent;
+  color: var(--color-light-blue);
+}
+
+.button:hover {
   background-color: var(--color-light-blue);
+}
+
+.button--secondary:hover {
+  color: var(--color-neon-blue);
+  transform: scale(1.1);
 }
 
 .card {
@@ -66,18 +83,10 @@ This way we prevent the card from being cut off. */
   margin: unset;
 }
 
-.card > figcaption > button {
-  border: transparent;
-  background-color: transparent;
+.card > figcaption {
   color: var(--color-neon-blue);
   font-size: 1.25rem;
   font-weight: 500;
-  cursor: pointer;
-  transition: 1s;
-}
-
-.card > figcaption > button:hover {
-  transform: scale(1.1);
 }
 
 blockquote {
@@ -96,7 +105,7 @@ blockquote {
   font-size: 1.3rem;
 }
 
-.card > button {
+.card > .button {
   position: absolute;
   bottom: -1.5rem;
   left: 50%;

@@ -43,10 +43,10 @@ function getRandomQuote() {
   authorQuotes.value = []
   noDuplicateQuotes.value = {}
 
-  // API docs: https://pprathameshmore.github.io/QuoteGarden/
-  fetch("https://quote-garden.onrender.com/api/v3/quotes/random")
+  // API docs: https://dummyjson.com/docs/quotes
+  fetch("https://dummyjson.com/quotes/random")
     .then((response) => response.json())
-    .then((json) => (randomQuote.value = json.data[0]))
+    .then((json) => (randomQuote.value = json))
 }
 
 function goToNextPage() {
@@ -69,19 +69,15 @@ function getAuthorQuotes() {
   noDuplicateQuotes.value = {}
   // In case the pagination is used: for activating the loading again
   authorQuotes.value = []
-  const authorLower = randomQuote.value.quoteAuthor.toLowerCase()
-  // Replacing all spaces for %20
-  const authorSlug = authorLower.replace(/ /g, '%20')
 
-  fetch(`https://quote-garden.onrender.com/api/v3/quotes?author=${authorSlug}&page=${authorPage.value}`)
+  fetch("https://dummyjson.com/quotes?limit=0")
     .then((response) => response.json())
     .then((json) => {
-      totalPages.value = json.pagination.totalPages
-      authorQuotes.value = json.data
+      authorQuotes.value = json.quotes
       // Avoiding duplicate quotes
       noDuplicateQuotes.value = new Set()
       authorQuotes.value.forEach(el => {
-        noDuplicateQuotes.value.add(el.quoteText)
+        noDuplicateQuotes.value.add(el.quote)
       })
       return noDuplicateQuotes.value
     })
@@ -131,9 +127,9 @@ onMounted(async () => {
       :cardClassCondition="isMobile && biggerCard"
       :showLoading="!isThereRandomQuote"
       :loadingMessage="cardLoadingMessage"
-      :quoteText="randomQuote.quoteText"
-      :quoteAuthor="randomQuote.quoteAuthor"
-      @clickFigcaption="getAuthorQuotes"
+      :quoteText="randomQuote.quote"
+      :quoteAuthor="randomQuote.author"
+      @clickSeeAll="getAuthorQuotes"
       @clickButton="getRandomQuote"
     />
 

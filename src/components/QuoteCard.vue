@@ -17,12 +17,7 @@ defineProps({
     class="card" 
     :class="{ 'card--bigger': cardClassCondition }"
   >
-    <figcaption v-if="!showLoading">
-      <button 
-        type="button" 
-        @click="$emit('clickFigcaption')"
-      >{{ quoteAuthor }} &rarr;</button>
-    </figcaption>
+    <figcaption v-if="!showLoading">{{ quoteAuthor }}</figcaption>
     <p v-if="showLoading">{{ loadingMessage }}</p>
     <blockquote v-if="!showLoading">
       <p>"{{ quoteText }}"</p>
@@ -32,7 +27,9 @@ defineProps({
       class="button"
       @click="$emit('clickButton')"
     >New quote</button>
+    <button class="button--secondary" @click="$emit('clickSeeAll')">See full list &rarr;</button>
   </figure>
+  
 </template>
 
 <style scoped></style>
