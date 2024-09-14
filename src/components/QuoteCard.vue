@@ -20,7 +20,7 @@ defineProps({
     <figcaption v-if="!showLoading">{{ quoteAuthor }}</figcaption>
     <p v-if="showLoading">{{ loadingMessage }}</p>
     <blockquote v-if="!showLoading">
-      <p>"{{ quoteText }}"</p>
+      <p>"{{ quoteText.toLowerCase() }}"</p>
     </blockquote>
     <button
       type="button"

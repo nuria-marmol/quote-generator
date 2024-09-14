@@ -1,14 +1,17 @@
 <script setup>
 defineProps({
-  quoteText: "String"
+  quoteText: String,
+  quoteAuthor: String
 })
 </script>
 
 <template>
   <li>
     <blockquote>
-      <p>"{{ quoteText }}"</p>
+      <!-- As in some quotes all words are capitalised -->
+      <p>"{{ quoteText.toLowerCase() }}"</p>
     </blockquote>
+    <p>{{ quoteAuthor }}</p>
     <img src="../assets/icons/divider.svg" alt="divider" />  
   </li>
 </template>

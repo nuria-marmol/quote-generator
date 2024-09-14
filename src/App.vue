@@ -5,10 +5,12 @@ import QuoteItem from './components/QuoteItem.vue'
 import { ref, computed, onBeforeMount, onMounted } from 'vue'
 
 const randomQuote = ref({})
-const authorQuotes = ref([]) // for other quotes from that author
-const authorPage = ref(1)
+const allQuotes = ref([]) // for other quotes from that author
+const currentPage = ref(1)
 const totalPages = ref(1)
-const noDuplicateQuotes = ref({})
+const quotesPerPage = ref(15);
+const quotesToSkip = ref(0);
+const totalQuotes = ref(1000);
 const seeRandom = ref(true) // for showing/hiding card
 const cardLoadingMessage = ref("")
 const isMobile = ref(false)
@@ -25,8 +27,8 @@ function getLoadingMessage() {
 /**
 * Before generating a new random quote from the list of quotes
 */
-function resetAuthorPage() {
-  authorPage.value = 1
+function resetCurrentPage() {
+  currentPage.value = 1
   getRandomQuote()
 }
 
@@ -40,8 +42,7 @@ function getRandomQuote() {
   // Showing card again when clicking button below several quotes
   seeRandom.value = true
   // Clearing several previous quotes from author
-  authorQuotes.value = []
-  noDuplicateQuotes.value = {}
+  allQuotes.value = []
 
   // API docs: https://dummyjson.com/docs/quotes
   fetch("https://dummyjson.com/quotes/random")
@@ -50,36 +51,29 @@ function getRandomQuote() {
 }
 
 function goToNextPage() {
-  authorPage.value += 1
-  getAuthorQuotes()
+  currentPage.value += 1
+  quotesToSkip.value = quotesToSkip.value + quotesPerPage.value;
+  getAllQuotes()
 }
 
 function goToPreviousPage() {
-  authorPage.value -= 1
-  getAuthorQuotes()
+  currentPage.value -= 1
+  quotesToSkip.value = quotesToSkip.value - quotesPerPage.value;
+  getAllQuotes()
 }
 
-/**
-* Getting other quotes from author
-*/
-function getAuthorQuotes() {
+function getAllQuotes() {
   // Hiding card with random quote
   seeRandom.value = false
-  // In case the pagination is used: emptying previous quotes
-  noDuplicateQuotes.value = {}
   // In case the pagination is used: for activating the loading again
-  authorQuotes.value = []
+  allQuotes.value = []
 
-  fetch("https://dummyjson.com/quotes?limit=0")
+  fetch(`https://dummyjson.com/quotes?limit=${quotesPerPage.value}&skip=${quotesToSkip.value}`)
     .then((response) => response.json())
     .then((json) => {
-      authorQuotes.value = json.quotes
-      // Avoiding duplicate quotes
-      noDuplicateQuotes.value = new Set()
-      authorQuotes.value.forEach(el => {
-        noDuplicateQuotes.value.add(el.quote)
-      })
-      return noDuplicateQuotes.value
+      allQuotes.value = json.quotes;
+      totalQuotes.value = json.total;
+      totalPages.value = Math.floor(json.total / quotesPerPage.value);
     })
 }
 
@@ -101,7 +95,7 @@ const isThereRandomQuote = computed( () => {
 
 // Returns true if there are quotes from a concrete author
 const areThereSeveralQuotes = computed( () => {
-  return authorQuotes.value.length > 0
+  return allQuotes.value.length > 0
 })
 
 // Returns true if the quote is too long
@@ -129,31 +123,32 @@ onMounted(async () => {
       :loadingMessage="cardLoadingMessage"
       :quoteText="randomQuote.quote"
       :quoteAuthor="randomQuote.author"
-      @clickSeeAll="getAuthorQuotes"
+      @clickSeeAll="getAllQuotes"
       @clickButton="getRandomQuote"
     />
 
-    <!-- Several quotes from concrete author -->
+    <!-- Full list of quotes -->
     <section v-if="!seeRandom" class="author">
-      <p>{{ randomQuote.quoteAuthor }}</p>
       <p v-if="!areThereSeveralQuotes">Loading quotes...</p>
       <ul>
         <QuoteItem     
-          v-for="quote in noDuplicateQuotes"
-          :quoteText="quote"
+          v-for="(quote, index) in allQuotes"
+          v-bind:key="index"
+          :quoteText="quote.quote"
+          :quoteAuthor="quote.author"
         />
       </ul>
       
       <!-- Pagination will be visible if there is more than 1 page and once the quotes have been loaded -->
-      <div v-if="areThereSeveralQuotes && totalPages > 1" class="author__pagination">
+      <div v-if="areThereSeveralQuotes && totalQuotes > quotesPerPage" class="author__pagination">
         <button
-          v-if="authorPage > 1"
+          v-if="currentPage > 1"
           type="button"
           @click="goToPreviousPage"
         >&larr;</button>
-        <span>Page {{ authorPage }} of {{ totalPages }}</span>
+        <span>Page {{ currentPage }} of {{ totalPages }}</span>
         <button
-          v-if="authorPage + 1 <= totalPages"
+          v-if="currentPage + 1 <= totalPages"
           type="button" 
           @click="goToNextPage"      
         >&rarr;</button>
@@ -161,7 +156,7 @@ onMounted(async () => {
       <button      
         type="button"
         class="button"
-        @click="resetAuthorPage"
+        @click="resetCurrentPage"
       >New quote</button>
     </section>
   </main>

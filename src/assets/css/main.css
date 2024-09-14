@@ -101,6 +101,10 @@ blockquote {
   font-weight: 700;
 }
 
+.card p::first-letter {
+  text-transform: uppercase;
+}
+
 .card.card--bigger p {
   font-size: 1.3rem;
 }
@@ -142,10 +146,21 @@ blockquote {
   margin-bottom: .75rem;
 }
 
+.author blockquote p::first-letter {
+  text-transform: uppercase;
+}
+
+/* Autor */
+.author li > p {
+  margin-top: unset;
+  color: var(--color-neon-blue);
+  font-size: .9rem;
+}
+
 /* Divider */
 .author img {
   width: 16rem;
-  margin: 0 auto 2rem auto;
+  margin: 0 auto 2.5rem auto;
 }
 
 .author > button {
